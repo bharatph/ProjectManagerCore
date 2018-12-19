@@ -3,6 +3,11 @@
 
 pm::Operation::~Operation()
 {
+  operationCallback(*this);
+}
+
+pm::Operation::Operation()
+{
 }
 
 pm::Operation::Operation(OperationCallback operationCallback) : operationCallback(operationCallback)

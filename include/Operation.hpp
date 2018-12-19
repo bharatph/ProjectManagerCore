@@ -7,16 +7,17 @@
 
 namespace pm
 {
-class Operation : public em::EventManager<PMEvent, std::map<std::string, Project &>>
+class Operation : public em::EventManager<PMEvent, std::map<std::string, Project *>>
 {
 
 public:
-  typedef std::function<void()> OperationCallback;
+  typedef std::function<void(Operation &)> OperationCallback;
 
 private:
   OperationCallback operationCallback;
 
 public:
+  Operation();
   Operation(OperationCallback);
   ~Operation();
 };

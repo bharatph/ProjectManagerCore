@@ -14,10 +14,10 @@ namespace pm {
     //initializes the ProjectManagerCore, reads local files and adds to memory
     ProjectManagerCore();
     //Returns an active object, WARNING: do not delete the returned object
-    Operation &getProjects(Query);
-    Operation &addProject(Project);
-    Operation &modifyProject(Project &);
-    Operation &removeProject(Project &);
+    Operation getProjects(Query);
+    Operation addProject(Project);
+    Operation modifyProject(Project &);
+    Operation removeProject(Project &);
   };
 }
 
