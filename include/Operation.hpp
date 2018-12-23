@@ -1,14 +1,13 @@
 #ifndef _PM_OPERATION_H
 #define _PM_OPERATION_H
 
-#include <em/EventManager.hpp>
 #include <PMEvent.hpp>
-#include <Project.hpp>
+#include <em/EventManager.hpp>
+#include <model/Project.hpp>
+#include <vector>
 
-namespace pm
-{
-class Operation : public em::EventManager<PMEvent, std::map<std::string, Project *>>
-{
+namespace pm {
+class Operation : public em::EventManager<PMEvent, Project *> {
 
 public:
   typedef std::function<void(Operation &)> OperationCallback;
@@ -21,6 +20,6 @@ public:
   Operation(OperationCallback);
   ~Operation();
 };
-} // namespace dot
+} // namespace pm
 
 #endif
