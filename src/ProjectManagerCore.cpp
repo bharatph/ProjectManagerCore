@@ -40,12 +40,9 @@ pm::Operation pm::ProjectManagerCore::getProjects(Query query) {
 }
 
 pm::Operation pm::ProjectManagerCore::addProject(pm::Project p) {
-  std::cout << p.getUid() << std::endl;
-
   return Operation([&](Operation &op) {
     // assuming there is no error with map
     // error is checked only for persistence storage
-    fmt::print("{}{}\n", p.getUid(), p.name);
     std::string query = fmt::format(
         "insert into pmc_table values('{}', '{}', '{}', '{}', '{}')",
         p.getUid(), p.name, p.description, p.repositoryLink, p.repositoryType);
@@ -72,8 +69,17 @@ pm::Operation pm::ProjectManagerCore::modifyProject(pm::Project &p) {
   });
 }
 
+static int removeOperation(void *op, int argc, char *argv[], char **col) {
+  ((Operation *)op)->fireEvent(PMEvent::SUCCESS, nullptr);
+  return 0;
+}
+
 pm::Operation pm::ProjectManagerCore::removeProject(pm::Project &p) {
-  return Operation([&](Operation &op) { op.fireEvent(PMEvent::SUCCESS, &p); });
+  return Operation([&](Operation &op) {
+    std::string query =
+        fmt::format("delete from pmc_table where uid='{}'", p.getUid());
+    sqlite3_exec(*db, query.c_str(), removeOperation, nullptr, nullptr);
+  });
 }
 
 pm::ProjectManagerCore::~ProjectManagerCore() {

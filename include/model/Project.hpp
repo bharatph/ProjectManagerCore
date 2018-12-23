@@ -27,13 +27,12 @@ public:
     this->repositoryLink = repositoryLink;
   }
   Project(std::string name, std::string description, std::string repositoryLink,
-          std::string repositoryType) {
-    Project(xg::newGuid().str(), name, description, repositoryLink,
-            repositoryType);
-  }
-  Project(const Project &p) {
-    Project(p.uid, p.name, p.description, p.repositoryLink, p.repositoryType);
-  }
+          std::string repositoryType)
+      : Project(xg::newGuid().str(), name, description, repositoryLink,
+                repositoryType) {}
+  Project(const Project &p)
+      : Project(p.uid, p.name, p.description, p.repositoryLink,
+                p.repositoryType) {}
 };
 } // namespace pm
 
