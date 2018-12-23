@@ -30,7 +30,7 @@ target_include_directories(ProjectManagerCore PRIVATE ${SQLITE3_INCLUDE_DIR})
 target_link_libraries(ProjectManagerCore crossguid)
 target_link_libraries(ProjectManagerCore ${CLOG_LIBS})
 target_link_libraries(ProjectManagerCore ${DOT_LIBS})
-target_link_libraries(ProjectManagerCore -lsqlite3)
+target_link_libraries(ProjectManagerCore ${SQLITE3_LIBRARIES})
 target_link_libraries(ProjectManagerCore fmt)
 
 target_link_libraries(pm_test ProjectManagerCore)

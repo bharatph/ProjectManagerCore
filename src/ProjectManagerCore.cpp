@@ -32,8 +32,8 @@ static int s_callback(void *op, int argc, char **argv, char **col) {
 pm::Operation pm::ProjectManagerCore::getProjects(Query query) {
   // TODO get the project based on the query
   return Operation([&](Operation &op) {
-    std::string query = fmt::format("select * from pmc_table");
-    sqlite3_exec(*db, query.c_str(), s_callback, &op, nullptr);
+    std::string getQuery = fmt::format("select * from pmc_table");
+    sqlite3_exec(*db, getQuery.c_str(), s_callback, &op, nullptr);
     // TODO if empty fire not found and return
     // TODO else return the results
   });
@@ -69,16 +69,12 @@ pm::Operation pm::ProjectManagerCore::modifyProject(pm::Project &p) {
   });
 }
 
-static int removeOperation(void *op, int argc, char *argv[], char **col) {
-  ((Operation *)op)->fireEvent(PMEvent::SUCCESS, nullptr);
-  return 0;
-}
-
 pm::Operation pm::ProjectManagerCore::removeProject(pm::Project &p) {
   return Operation([&](Operation &op) {
     std::string query =
         fmt::format("delete from pmc_table where uid='{}'", p.getUid());
-    sqlite3_exec(*db, query.c_str(), removeOperation, nullptr, nullptr);
+        sqlite3_exec(*db, query.c_str(),nullptr, nullptr, nullptr);
+        op.fireEvent(PMEvent::SUCCESS, &p);
   });
 }
 
